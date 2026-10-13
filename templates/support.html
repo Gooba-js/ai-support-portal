@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>Opprett supportsak</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Opprett supportsak</h1>
+    <a href="{{ url_for('home') }}">Tilbake til forsiden</a>
+    <p>Beskriv IT-problemet ditt her.</p>
+    <form method="POST">
+    <label for="title">Tittel på problemet:</label>
+<input type="text" id="title" name="title">
+
+<label for="category">Kategori:</label>
+<select id="category" name="category">
+    <option value="network">Nettverk / Wi-Fi</option>
+    <option value="software">Programvare</option>
+    <option value="hardware">Maskinvare</option>
+    <option value="account">Brukerkonto / Passord</option>
+    <option value="other">Annet</option>
+</select>
+
+<label for="priority">Prioritet:</label>
+<select id="priority" name="priority">
+    <option value="low">Lav</option>
+    <option value="medium">Middels</option>
+    <option value="high">Høy</option>
+</select>
+    <label for="problem">Beskriv problemet:</label>
+<textarea id="problem" name="problem" rows="5" cols="40"></textarea>
+
+<button type="submit">Send inn supportsak</button>
+</form>
+</body>
+</html>

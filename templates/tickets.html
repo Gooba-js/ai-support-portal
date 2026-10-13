@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>Supportsaker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Registrerte supportsaker</h1>
+    <a href="{{ url_for('home') }}">Tilbake til forsiden</a>
+    <p>Her skal vi vise alle supportsakene våre.</p>
+    
+    {% for ticket in tickets %}
+        <div class="ticket-card">
+            <p>Saksnummer: #{{ ticket[0] }}</p>
+            <h2>{{ ticket[1] }}</h2>
+            <p>{{ ticket[2] }}</p>
+            <p>{{ ticket[3] }}</p>
+            <p>Prioritet: <strong class="priority-{{ ticket[4] }}">{{ ticket[4] }}</strong></p>
+            <p>Status:
+                
+                <strong class="ticket-status
+                    {% if ticket[5] == 'Løst' %}status-solved
+                    {% elif ticket[5] == 'Under arbeid' %}status-progress
+                    {% endif %}">
+
+                    {{ ticket[5] }}
+                </strong>
+            </p>
+            <form method="POST">
+                <input type="hidden" name="ticket_id" value="{{ ticket[0] }}">
+
+                <label for="status-{{ ticket[0] }}">Endre status:</label>
+                <select id="status-{{ ticket[0] }}" name="status">
+                    <option value="Åpen" {% if ticket[5] == "Åpen" %}selected{% endif %}>Åpen</option>
+                    <option value="Under arbeid" {% if ticket[5] == "Under arbeid" %}selected{% endif %}>Under arbeid</option>
+                    <option value="Løst" {% if ticket[5] == "Løst" %}selected{% endif %}>Løst</option>
+                </select>
+                <button type="submit">Lagre status</button>
+            </form>
+        </div>
+    {% endfor %}
+
+</body>
+</html>
