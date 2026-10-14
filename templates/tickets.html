@@ -10,6 +10,11 @@
     <h1>Registrerte supportsaker</h1>
     <a href="{{ url_for('home') }}">Tilbake til forsiden</a>
     <p>Her skal vi vise alle supportsakene våre.</p>
+    <form method="GET">
+    <input type="text" name="search" value="{{ request.args.get('search', '') }}" placeholder="Søk etter supportsak...">
+    <button type="submit">Søk</button>
+    <a href="{{ url_for('tickets') }}">Nullstill søk</a>
+    </form>
     
     {% for ticket in tickets %}
         <div class="ticket-card">
@@ -40,6 +45,8 @@
                 <button type="submit">Lagre status</button>
             </form>
         </div>
+    {% else %}
+        <p>Ingen supportsaker funnet.</p>
     {% endfor %}
 
 </body>

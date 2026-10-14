@@ -49,6 +49,8 @@ def support():
 
 @app.route("/tickets", methods=["GET", "POST"])
 def tickets():
+    search = request.args.get("search", "")
+
     if request.method == "POST":
         status = request.form.get("status")
         ticket_id = request.form.get("ticket_id")
@@ -79,7 +81,16 @@ def tickets():
 
 
     connection = sqlite3.connect("support.db")
-    tickets = connection.execute("SELECT * FROM tickets ORDER BY id DESC").fetchall()
+    if search:
+        tickets = connection.execute(
+            "SELECT * FROM tickets WHERE title LIKE ? ORDER BY id DESC",
+            (f"%{search}%",)
+        ).fetchall()
+    else:
+        tickets = connection.execute(
+            "SELECT * FROM tickets ORDER BY id DESC"
+        ).fetchall()
+        
     connection.close()
 
     return render_template("tickets.html", tickets=tickets)
