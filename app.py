@@ -50,6 +50,8 @@ def support():
 @app.route("/tickets", methods=["GET", "POST"])
 def tickets():
     search = request.args.get("search", "")
+    status_filter = request.args.get("status", "")
+    category_filter = request.args.get("category", "")
 
     if request.method == "POST":
         status = request.form.get("status")
@@ -81,15 +83,35 @@ def tickets():
 
 
     connection = sqlite3.connect("support.db")
-    if search:
-        tickets = connection.execute(
-            "SELECT * FROM tickets WHERE title LIKE ? ORDER BY id DESC",
-            (f"%{search}%",)
-        ).fetchall()
-    else:
-        tickets = connection.execute(
-            "SELECT * FROM tickets ORDER BY id DESC"
-        ).fetchall()
+
+    if status_filter and status_filter not in ["Åpen", "Under arbeid", "Løst"]:
+        status_filter = ""
+
+    valid_categories = ["network", "software", "hardware", "account", "other"]
+
+    if category_filter and category_filter not in valid_categories:
+        category_filter = ""
+
+    
+    
+    tickets = connection.execute(
+        """
+        SELECT * FROM tickets
+        WHERE title LIKE ?
+        AND (? = '' OR status = ?)
+        AND (? = '' OR category = ?)
+        ORDER BY id DESC
+        """,
+        (
+            f"%{search}%",
+            status_filter,
+            status_filter,
+            category_filter,
+            category_filter
+        )
+    ).fetchall()
+
+
         
     connection.close()
 

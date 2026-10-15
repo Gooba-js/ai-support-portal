@@ -76,3 +76,51 @@ input, textarea, select {
 .ticket-status.status-progress {
     color: orange;
 }
+
+
+details summary {
+    display: inline-block;
+    background-color: white;
+    color: #2563eb;
+    padding: 6px 12px;
+    border: 1px solid #2563eb;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+details summary:hover {
+    background-color: #dbeafe;
+}
+
+
+
+form[method="GET"] details {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}
+
+form[method="GET"] details[open] select,
+form[method="GET"] details[open] label {
+    display: block;
+}
+
+
+
+.filter-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    padding: 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-width: 220px;
+    z-index: 10;
+    text-align: left;
+}
+
+

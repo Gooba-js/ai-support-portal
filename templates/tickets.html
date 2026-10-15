@@ -10,12 +10,58 @@
     <h1>Registrerte supportsaker</h1>
     <a href="{{ url_for('home') }}">Tilbake til forsiden</a>
     <p>Her skal vi vise alle supportsakene våre.</p>
+
+
     <form method="GET">
+    
+
+
+
     <input type="text" name="search" value="{{ request.args.get('search', '') }}" placeholder="Søk etter supportsak...">
     <button type="submit">Søk</button>
-    <a href="{{ url_for('tickets') }}">Nullstill søk</a>
-    </form>
+
+    <details {% if request.args.get('status') or request.args.get('category') %}open{% endif %}>
+    <summary>⚙️ Filtre</summary>
+    <div class="filter-content">
+    <label for="status-filter">Filtrer etter status:</label>
+   
+    <select id="status-filter" name="status">
+        <option value="">Alle statuser</option>
+
+        {% for status in ["Åpen", "Under arbeid", "Løst"] %}
+            <option value="{{ status }}"
+                {% if request.args.get("status") == status %}selected{% endif %}>
+                {{ status }}
+            </option>
+        {% endfor %}
+    </select>
     
+    
+    <label for="category-filter">Kategori:</label>
+    <select id="category-filter" name="category">
+        <option value="">Alle kategorier</option>
+
+        {% for value, label in [
+            ("network", "Nettverk / Wi-Fi"),
+            ("software", "Programvare"),
+            ("hardware", "Maskinvare"),
+            ("account", "Brukerkonto / Passord"),
+            ("other", "Annet")
+        ] %}
+            <option value="{{ value }}"
+                {% if request.args.get('category') == value %}selected{% endif %}>
+                {{ label }}
+            </option>
+        {% endfor %}
+    </select>
+    </div>
+    </details>
+
+    <a href="{{ url_for('tickets') }}">Nullstill alle filtre</a>
+    </form>
+
+
+    <p>Antall supportsaker: {{ tickets|length }}</p>
     {% for ticket in tickets %}
         <div class="ticket-card">
             <p>Saksnummer: #{{ ticket[0] }}</p>
