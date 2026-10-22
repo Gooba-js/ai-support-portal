@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>Kunnskapsbase - AI Support Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>IT Kunnskapsbase</h1>
+    <p>Finn løsninger på vanlige IT-problemer.</p>
+
+    {% for article in articles %}
+        <div class="knowledge-card">
+            <div class="article-content">
+                {{ article | safe }}
+            </div>
+        </div>
+    {% endfor %}
+    
+    <div class="knowledge-card">
+        <h2>Problemer med Wi-Fi</h2>
+
+        <p>Hvis du ikke får koblet til Wi-Fi, prøv følgende:</p>
+
+        <ol>
+            <li>Kontroller at Wi-Fi er aktivert.</li>
+            <li>Start PC-en på nytt.</li>
+            <li>Sjekk om andre enheter kan koble til nettverket.</li>
+            <li>Glem nettverket og koble til på nytt.</li>
+        </ol>
+    </div>
+
+    
+    <div class="knowledge-card">
+        <h2>Outlook starter ikke</h2>
+
+        <p>Hvis Outlook ikke åpner seg, prøv følgende:</p>
+
+        <ol>
+            <li>Kontroller at Outlook ikke allerede kjører.</li>
+            <li>Start PC-en på nytt.</li>
+            <li>Prøv å starte Outlook i sikker modus.</li>
+            <li>Kontakt IT-support hvis problemet fortsetter.</li>
+        </ol>
+    </div>
+
+
+    <a href="{{ url_for('home') }}">Tilbake til forsiden</a>
+</body>
+</html>

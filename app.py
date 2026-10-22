@@ -1,8 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
-
+from pathlib import Path
+import markdown
 
 app = Flask(__name__)
+KNOWLEDGE_DIR = Path(__file__).resolve().parent / "knowledge_base"
+
+
+def load_articles():
+    articles = []
+
+    for file in sorted(KNOWLEDGE_DIR.glob("*.md")):
+        content = file.read_text(encoding="utf-8")
+        content = markdown.markdown(content)
+        articles.append(content)
+
+    return articles
+
 
 def init_db():
     connection = sqlite3.connect("support.db")
@@ -117,3 +131,9 @@ def tickets():
 
     return render_template("tickets.html", tickets=tickets)
 
+
+
+@app.route("/knowledge")
+def knowledge():
+    articles = load_articles()
+    return render_template("knowledge.html", articles=articles)
